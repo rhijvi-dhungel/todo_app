@@ -1,15 +1,16 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
+
 from database import Base, engine, SessionLocal
 from models import Todo
 
 app = FastAPI()
 
-try:
-    Base.metadata.create_all(bind=engine)
-except Exception as e:
-    print(f"Warning: Could not create database tables: {e}")
+# Create tables
+Base.metadata.create_all(bind=engine)
 
+# CORS (frontend access)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -18,42 +19,49 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# DB dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 # GET ALL TODOS
 @app.get("/todos")
-def get_todos():
-    db = SessionLocal()
-    todos = db.query(Todo).all()
-    db.close()
-    return todos
+def get_todos(db: Session = Depends(get_db)):
+    return db.query(Todo).all()
 
 # CREATE TODO
 @app.post("/todos")
-def create_todo(data: dict):
-    db = SessionLocal()
-    todo = Todo(title=data["title"], completed=False)
-    db.add(todo)
+def create_todo(todo: dict, db: Session = Depends(get_db)):
+    new_todo = Todo(title=todo["title"], completed=False)
+    db.add(new_todo)
     db.commit()
-    db.refresh(todo)
-    db.close()
-    return todo
+    db.refresh(new_todo)
+    return new_todo
 
 # DELETE TODO
 @app.delete("/todos/{todo_id}")
-def delete_todo(todo_id: int):
-    db = SessionLocal()
+def delete_todo(todo_id: int, db: Session = Depends(get_db)):
     todo = db.query(Todo).filter(Todo.id == todo_id).first()
+
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+
     db.delete(todo)
     db.commit()
-    db.close()
     return {"message": "deleted"}
 
 # TOGGLE TODO
 @app.put("/todos/{todo_id}")
-def toggle_todo(todo_id: int):
-    db = SessionLocal()
+def toggle_todo(todo_id: int, db: Session = Depends(get_db)):
     todo = db.query(Todo).filter(Todo.id == todo_id).first()
+
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+
     todo.completed = not todo.completed
     db.commit()
     db.refresh(todo)
-    db.close()
     return todo
