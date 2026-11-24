@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 📌 About the Project
 
-## Getting Started
+This is a full-stack Todo Application developed to simplify everyday task management. The application allows users to create, view, delete, and update tasks, including marking tasks as completed or incomplete.
 
-First, run the development server:
+Built using Next.js and React for the frontend, FastAPI for the backend, and PostgreSQL for database management, the project demonstrates the integration of modern web technologies to develop a functional full-stack application.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The backend provides RESTful API endpoints to handle task operations, while SQLAlchemy ORM manages database interactions and persistent task storage.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Key Features
+- Create new tasks.
+- View all existing tasks.
+- Mark tasks as completed or incomplete.
+- Delete tasks.
+- Persistent task storage using PostgreSQL.
+- Frontend and backend integration through REST APIs.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Project Objective
+The main objective of this project was to gain practical experience in full-stack web development, REST API implementation, database integration, and frontend-backend communication.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Technologies Used
 
-## Learn More
+### Frontend
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
 
-To learn more about Next.js, take a look at the following resources:
+### Backend
+- Python
+- FastAPI
+- SQLAlchemy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Database
+- PostgreSQL
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Development Tools
+- Visual Studio Code
+- Git
+- GitHub
